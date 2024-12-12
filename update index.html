@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        #game-container {
+            margin-top: 50px;
+        }
+        #score {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        #click-button {
+            padding: 20px 40px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        #click-button:active {
+            background-color: #45a049;
+        }
+        #upgrade {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 10px;
+        }
+        #upgrade:active {
+            background-color: #007B9E;
+        }
+        #message {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Clicker Game</h1>
+        <div id="score">Score: 0</div>
+        <button id="click-button">Click Me!</button>
+        <br>
+        <button id="upgrade">Upgrade: +1 per click (Cost: 10)</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let pointsPerClick = 1;
+        let upgradeCost = 10;
+
+        // Elements
+        const scoreElement = document.getElementById('score');
+        const clickButton = document.getElementById('click-button');
+        const upgradeButton = document.getElementById('upgrade');
+        const messageElement = document.getElementById('message');
+
+        // Click button event
+        clickButton.addEventListener('click', () => {
+            score += pointsPerClick;
+            updateScore();
+        });
+
+        // Upgrade button event
+        upgradeButton.addEventListener('click', () => {
+            if (score >= upgradeCost) {
+                score -= upgradeCost;
+                pointsPerClick++;
+                upgradeCost *= 1.5; // Increase upgrade cost
+                updateScore();
+                updateUpgradeButton();
+            } else {
+                messageElement.textContent = 'Not enough points to upgrade!';
+                setTimeout(() => messageElement.textContent = '', 2000);
+            }
+        });
+
+        // Update the score display
+        function updateScore() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        // Update upgrade button text and functionality
+        function updateUpgradeButton() {
+            upgradeButton.textContent = `Upgrade: +${pointsPerClick} per click (Cost: ${Math.floor(upgradeCost)})`;
+        }
+
+        // Initial game state
+        updateUpgradeButton();
+    </script>
+</body>
+</html>
